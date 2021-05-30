@@ -10,7 +10,7 @@ export default function MovieJumbotron({ movie }) {
         <div className={classes.root}>
             <div>
                 <Tooltip title="GitHub">
-                    <IconButton rel="noreferrer" href="https://github.com/siddiqafraaz" target="_blank" className={classes.icon} size="small" color="secondary">
+                    <IconButton rel="noreferrer" href="https://github.com/SiddiqAfraaz/WATCHiT" target="_blank" className={classes.icon} size="small" color="secondary">
                         <GitHub />
                     </IconButton>
                 </Tooltip>
