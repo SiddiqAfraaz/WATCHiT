@@ -1,4 +1,4 @@
-# WATCHiT™
+# (src\Components\GeneralComponents\AppBar)WATCHiT™
 
 This is Movie Guide Website created with ReactJS. The Goal of this project is to make a Fully Responsive and Functioning Design regardless of the screen sizes and to learn React through the process. This website uses TMDB API for the Contents of the page.
 
