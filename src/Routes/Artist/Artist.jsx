@@ -35,8 +35,9 @@ function Artist() {
     }, [id]);
 
     artist.birthday && (artist.birthday = new Date(artist.birthday));
-    function calculateAge(dob) {
-        var diff_ms = Date.now() - dob.getTime();
+    artist.deathday && (artist.deathday = new Date(artist.deathday));
+    function calculateAge() {
+        var diff_ms = (artist.deathday ? artist.deathday.getTime() : Date.now()) - artist.birthday.getTime();
         var age_dt = new Date(diff_ms);
 
         return Math.abs(age_dt.getUTCFullYear() - 1970);
@@ -64,7 +65,7 @@ function Artist() {
                     <Typography
                         variant="body1"
                         className={classes.artistSubtitle}>
-                        {`Known for ${artist.gender === 2 ? "his" : "her"} ${artist.known_for_department}`}
+                        {`Known for ${artist.gender === 1 ? "her" : "his"} ${artist.known_for_department}`}
                     </Typography>
                     <Typography
                         variant="body1"
@@ -81,7 +82,7 @@ function Artist() {
             </div>
             <div className={classes.container2}>
                 <Collapse className={classes.artistInfo} in={isOpen || !isSmallScreen}>
-                    <div>
+                    {artist.id && <div>
                         <Typography
                             variant="h6"
                             className={classes.heading}>
@@ -92,27 +93,32 @@ function Artist() {
                             className={classes.artistBio}>
                             <strong>{`Known ${artist.known_for_department} Credits:`}</strong> <br />{artist.id && (artist.known_for_department === "Acting" ? artist.movies.length : artist.movie_credits.crew.filter((movie) => movie.department === artist.known_for_department).length)}
                         </Typography>
-                        <Typography
+                        {artist.gender !== null && <Typography
                             variant="body1"
                             className={classes.artistBio}>
                             <strong>Gender:</strong> <br />{artist.gender === 1 ? "Female" : "Male"}
-                        </Typography>
+                        </Typography>}
                         {artist.birthday && <Typography
                             variant="body1"
                             className={classes.artistBio}>
-                            <strong>Birthday:</strong> <br />{artist.birthday.toDateString().slice(4)} <em>{`(${calculateAge(artist.birthday)} years old)`}</em>
+                            <strong>Date of Birth:</strong> <br />{artist.birthday.toDateString().slice(4)} <em>{`(${calculateAge()} years old)`}</em>
                         </Typography>}
-                        <Typography
+                        {artist.deathday && <Typography
+                            variant="body1"
+                            className={classes.artistBio}>
+                            <strong>Date of Death:</strong> <br />{artist.deathday.toDateString().slice(4)}
+                        </Typography>}
+                        {artist.place_of_birth && <Typography
                             variant="body1"
                             className={classes.artistBio}>
                             <strong>Place of Birth:</strong> <br />{artist.place_of_birth}
-                        </Typography>
-                        <Typography
+                        </Typography>}
+                        {artist.also_known_as.length > 0 && <Typography
                             variant="body1"
                             className={classes.artistBio}>
                             <strong>Also Known as:</strong><br />{artist.id && artist.also_known_as.map((name, index) => <span key={index}>{name}<br /></span>)}
-                        </Typography>
-                    </div>
+                        </Typography>}
+                    </div>}
                 </Collapse>
                 <div className={classes.movies}>
                     <Typography
