@@ -47,7 +47,7 @@ function Artist() {
     return (
         <div className={classes.root}>
             <div className={classes.container1} style={{ padding: "5vw 1vw" }}>
-                <JumbotronBG img={artist.id && "https://image.tmdb.org/t/p/w1280" + (artist.movies[0] ? artist.movies[0].backdrop_path : artist.movie_credits.crew[0].backdrop_path)} />
+                <JumbotronBG img={artist.id && "https://image.tmdb.org/t/p/w1280" + (artist.movies[0] ? artist.movies[0].backdrop_path : (artist.movie_credits.crew[0] ? artist.movie_credits.crew[0].backdrop_path : null))} />
                 <Paper className={classes.artistPhoto} style={{ backgroundImage: artist.profile_path && "url(https://image.tmdb.org/t/p/h632" + artist.profile_path + ")" }} >
                     {!isPosterAvail &&
                         <div className={classes.brokenImage}>
