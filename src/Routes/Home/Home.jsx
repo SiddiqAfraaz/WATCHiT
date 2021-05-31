@@ -14,7 +14,7 @@ function Home() {
         listMovies: []
     }]);
     const [curatedLists, setCuratedLists] = useState([]);
-    const [curatedListNum, setcuratedListNum] = useState(1);
+    const [curatedListNum, setCuratedListNum] = useState(1);
     const [isPageEnd, setIsPageEnd] = useState(false);
     const [popularPeople, setPopularPeople] = useState([]);
     const [carouselMovies, setCarouselMovies] = useState([]);
@@ -49,7 +49,8 @@ function Home() {
     useEffect(() => {
         async function setCurated() {
             const curated = await GetCuratedList(curatedListNum);
-            if (curated === null) {
+            if (curated === null || typeof curated.listMovies == "undefined") {
+                console.log(curated, curatedListNum)
                 setIsPageEnd(true);
             } else {
                 setCuratedLists((prevVal) => {
@@ -62,13 +63,15 @@ function Home() {
     }, [curatedListNum]);
 
     function handleOnBottom() {
-        if (!isPageEnd) {
-            setcuratedListNum((prevVal) => prevVal + 1);
-        }
+        setTimeout(() => {
+            if (!isPageEnd) {
+                setCuratedListNum((prevVal) => prevVal + 1);
+            }
+        }, 500)
     }
 
 
-    useBottomScrollListener(handleOnBottom, { offset: 150 });
+    useBottomScrollListener(handleOnBottom);
     return (
         <div>
             <Carousel movies={carouselMovies} />
