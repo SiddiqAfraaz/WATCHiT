@@ -126,9 +126,9 @@ function Artist() {
                         className={classes.heading}>
                         <strong>Credited Movies</strong>
                     </Typography>
-                    {(artist.id && artist.movies.length > 0) && <MovieGrid name="Acting" movies={artist.movies} />}
+                    {(artist.id && artist.movies.length > 0) && <MovieGrid name="Acting" movies={artist.movies} variant="artist" />}
                     {artist.depts && artist.depts.map((dept, index) => (
-                        <MovieGrid key={index} name={dept} movies={artist.movie_credits.crew.filter((movie) => movie.department === dept)} />)
+                        <MovieGrid key={index} name={dept} movies={artist.movie_credits.crew.filter((movie) => movie.department === dept)} variant="artist" />)
                     )}
                 </div>
             </div>

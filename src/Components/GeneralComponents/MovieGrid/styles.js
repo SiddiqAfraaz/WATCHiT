@@ -19,10 +19,10 @@ export default makeStyles((theme) => ({
         flexWrap: "wrap",
         padding: "0 10px"
     },
-    card: {
+    cardSearch: {
         display: "flex",
-        width: "14vw",
-        height: "20.16vw",
+        width: "15vw",
+        height: "22.5vw",
         margin: "0.5vw",
         backgroundColor: "rgb(50,50,50, 0.5)",
         backgroundSize: "cover",
@@ -35,11 +35,35 @@ export default makeStyles((theme) => ({
         },
         [theme.breakpoints.down(1100)]: {
             width: "18vw",
-            height: "25.92vw",
+            height: "27vw",
         },
         [theme.breakpoints.down(500)]: {
             width: "29vw",
-            height: "41.76vw",
+            height: "43.5vw",
+            margin: "1.5vw 1vw",
+        },
+    },
+    cardArtist: {
+        display: "flex",
+        width: "14vw",
+        height: "21vw",
+        margin: "0.5vw",
+        backgroundColor: "rgb(50,50,50, 0.5)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        borderRadius: "10px",
+        boxShadow: `2px 2px 10px ${theme.palette.background.dark}`,
+        transition: "transform 250ms",
+        '&:hover': {
+            transform: "translateY(-5px)",
+        },
+        [theme.breakpoints.down(1100)]: {
+            width: "18vw",
+            height: "27vw",
+        },
+        [theme.breakpoints.down(500)]: {
+            width: "29vw",
+            height: "43.5vw",
             margin: "1.5vw 1vw",
         },
     },

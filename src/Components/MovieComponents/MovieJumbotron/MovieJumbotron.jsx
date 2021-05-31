@@ -85,7 +85,7 @@ export default function MovieJumbotron({ movie }) {
                                 className={classes.streamHead}>
                                 Flatrate:
                         </Typography>
-                            {movie.watch_providers.flatrate.map((platform) => (<Tooltip title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
+                            {movie.watch_providers.flatrate.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
                         </div>}
                         {movie.watch_providers.free && <div className={classes.streamSec}>
                             <Typography
@@ -93,7 +93,7 @@ export default function MovieJumbotron({ movie }) {
                                 className={classes.streamHead}>
                                 Free:
                         </Typography>
-                            {movie.watch_providers.free.map((platform) => (<Tooltip title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
+                            {movie.watch_providers.free.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
                         </div>}
                         {(movie.watch_providers.rent && !movie.watch_providers.ads) && <div className={classes.streamSec}>
                             <Typography
@@ -101,7 +101,7 @@ export default function MovieJumbotron({ movie }) {
                                 className={classes.streamHead}>
                                 Rent:
                         </Typography>
-                            {movie.watch_providers.rent.map((platform) => (<Tooltip title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
+                            {movie.watch_providers.rent.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
                         </div>}
                         {(movie.watch_providers.buy && !movie.watch_providers.free) && <div className={classes.streamSec}>
                             <Typography
@@ -109,7 +109,7 @@ export default function MovieJumbotron({ movie }) {
                                 className={classes.streamHead}>
                                 Buy:
                         </Typography>
-                            {movie.watch_providers.buy.map((platform) => (<Tooltip title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
+                            {movie.watch_providers.buy.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
                         </div>}
                         {movie.watch_providers.ads && <div className={classes.streamSec}>
                             <Typography
@@ -117,7 +117,7 @@ export default function MovieJumbotron({ movie }) {
                                 className={classes.streamHead}>
                                 Ads:
                         </Typography>
-                            {movie.watch_providers.ads.map((platform) => (<Tooltip title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
+                            {movie.watch_providers.ads.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
                         </div>}
                     </div>
                 </Collapse>}

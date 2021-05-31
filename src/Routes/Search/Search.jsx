@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { GetMovieSearch, GetPeopleSearch } from "../../api/MovieDB";
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import { Typography } from "@material-ui/core";
 
+import { GetMovieSearch, GetPeopleSearch } from "../../api/MovieDB";
+
+
 import PeopleList from "../../Components/GeneralComponents/PeopleList/PeopleList";
-import MovieList from "../../Components/GeneralComponents/MovieList/MovieList";
+import MovieGrid from "../../Components/GeneralComponents/MovieGrid/MovieGrid";
 
 import useStyles from "./styles";
 
@@ -43,13 +46,14 @@ function Search({ query }) {
         setArtistPage((prevVal) => prevVal + 1);
     };
 
+    useBottomScrollListener(handleMoviesOnEnd, { offset: 200 });
     return (
         <div className={classes.root}>
             <Typography className={classes.text} variant="h5" color="textPrimary">
                 {`${(artists.length === 0 && movies.length === 0) ? "No Results Found for" : "Search Results for"} '${query}'`}
             </Typography>
             {artists.length > 0 && <PeopleList name="Artists" people={artists} onEnd={handleArtistonEnd} />}
-            {movies.length > 0 && <MovieList name="Movies" movies={movies} onEnd={handleMoviesOnEnd} />}
+            {movies.length > 0 && <MovieGrid name="Movies" movies={movies} isSorted={true} />}
         </div>
     );
 }

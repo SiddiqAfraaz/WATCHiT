@@ -23,8 +23,8 @@ export default function Movie({ name, movies, onEnd }) {
                 slidesPerView={'auto'}
                 spaceBetween={0}
                 freeModeSticky={true}
-                onReachEnd={onEnd || null}>
-                {movies.map((movie, index) => {
+                onReachEnd={onEnd}>
+                {movies && movies.map((movie, index) => {
                     const isPosterAvail = movie.poster_path !== null;
                     return (
                         <SwiperSlide key={index} className={classes.slide}>
