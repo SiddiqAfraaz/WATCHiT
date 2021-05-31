@@ -50,7 +50,6 @@ function Home() {
         async function setCurated() {
             const curated = await GetCuratedList(curatedListNum);
             if (curated === null || typeof curated.listMovies == "undefined") {
-                console.log(curated, curatedListNum)
                 setIsPageEnd(true);
             } else {
                 setCuratedLists((prevVal) => {
