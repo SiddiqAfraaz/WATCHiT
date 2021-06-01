@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
         position: 'absolute',
         backgroundColor: "transparent",
         boxShadow: "none",
+        zIndex: 10
     },
     toolBar: {
         display: "flex",

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { CircularProgress } from '@material-ui/core';
 
 import Carousel from "../../Components/HomeComponents/Carousel/Carousel";
@@ -13,9 +12,6 @@ function Home() {
         listName: '',
         listMovies: []
     }]);
-    const [curatedLists, setCuratedLists] = useState([]);
-    const [curatedListNum, setCuratedListNum] = useState(1);
-    const [isPageEnd, setIsPageEnd] = useState(false);
     const [popularPeople, setPopularPeople] = useState([]);
     const [carouselMovies, setCarouselMovies] = useState([]);
 
@@ -46,40 +42,61 @@ function Home() {
         setHomepageLists();
     }, []);
 
+    const [curatedLists, setCuratedLists] = useState([]);
+    const [listNumber, setListNumber] = useState(2);
+    const [hasMore, setHasMore] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         async function setCurated() {
-            const curated = await GetCuratedList(curatedListNum);
-            if (curated === null || typeof curated.listMovies == "undefined") {
-                setIsPageEnd(true);
-            } else {
-                setCuratedLists((prevVal) => {
-                    prevVal.push(curated);
-                    return prevVal;
-                });
-            }
+            setLoading(true);
+            GetCuratedList(listNumber).then(res => {
+                if (res === null) {
+                    console.log(res)
+                    setHasMore(false);
+                }
+                else {
+                    console.log(res)
+                    setCuratedLists((prevVal) => {
+                        return [...prevVal, ...res];
+                    });
+                    setHasMore(true);
+                }
+                setLoading(false);
+            }).catch(e => {
+                setHasMore(false);
+            });
         }
         setCurated();
-    }, [curatedListNum]);
+    }, [listNumber]);
 
-    function handleOnBottom() {
-        setTimeout(() => {
-            if (!isPageEnd) {
-                setCuratedListNum((prevVal) => prevVal + 1);
+    const observer = useRef()
+    const lastBookElementRef = useCallback(node => {
+        if (loading) return
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                console.log("visible")
+                setListNumber(prevListNumber => prevListNumber + 2)
             }
-        }, 500)
-    }
+        })
+        if (node) observer.current.observe(node)
+    }, [loading, hasMore]);
 
 
-    useBottomScrollListener(handleOnBottom);
     return (
         <div>
             <Carousel movies={carouselMovies} />
             {lists.map((list, index) =>
                 <MovieList key={index} name={list.listName} movies={list.listMovies} />)}
             <PeopleList name="Trending Artists" people={popularPeople} />
-            {curatedLists.map((list, index) =>
-                <MovieList key={index} name={list.listName} movies={list.listMovies} />)}
-            <div style={{ width: "100%", display: isPageEnd ? "none" : "flex", flexDirection: "column", alignItems: "center" }}>
+            {curatedLists.map((list, index) => {
+                if (curatedLists.length === index + 1)
+                    return <div ref={lastBookElementRef}><MovieList key={index} name={list.listName} movies={list.listMovies} /></div>
+                else
+                    return <MovieList key={index} name={list.listName} movies={list.listMovies} />
+            })}
+            <div style={{ width: "100%", display: loading ? "flex" : "none", flexDirection: "column", alignItems: "center" }}>
                 <CircularProgress />
             </div>
         </div >

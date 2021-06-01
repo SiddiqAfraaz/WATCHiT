@@ -46,7 +46,7 @@ function Search({ query }) {
         setArtistPage((prevVal) => prevVal + 1);
     };
 
-    useBottomScrollListener(handleMoviesOnEnd, { offset: 200 });
+    useBottomScrollListener(handleMoviesOnEnd);
     return (
         <div className={classes.root}>
             <Typography className={classes.text} variant="h5" color="textPrimary">

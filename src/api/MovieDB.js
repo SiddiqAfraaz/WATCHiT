@@ -155,10 +155,6 @@ const curatedLists = [{
         name: "Sci-Fi Movies"
     },
     {
-        filters: "&with_genres=10770",
-        name: "TV Movies"
-    },
-    {
         filters: "&with_genres=53",
         name: "Thriller Movies"
     },
@@ -166,7 +162,11 @@ const curatedLists = [{
         filters: "&with_genres=10752",
         name: "War & Destrucution"
     },
-];
+    // {
+    //     filters: "&with_genres=10770",
+    //     name: "TV Movies"
+    // },
+]; // Add in Even Length
 
 function setGenres(genreIDs) {
     return genreIDs.map((genreID) =>
@@ -174,31 +174,37 @@ function setGenres(genreIDs) {
     )
 }
 
-
+//HomePage API Calls
 export async function GetCuratedList(listNum) {
-    if (window.sessionStorage.length === 0) {
+    if (window.sessionStorage.getItem("lists") === null) {
         window.sessionStorage.setItem("lists", JSON.stringify([]));
     }
     const listIndexes = JSON.parse(window.sessionStorage.getItem("lists"));
-    if (listIndexes.length === curatedLists.length && listNum >= listIndexes.length) {
-        return null;
-    }
-    const indexLength = listIndexes.length
-    if (indexLength <= listNum) {
-        while (listIndexes.length === indexLength) {
+    console.log(listNum)
+    if (listNum > curatedLists.length)
+        return null
+    const indexLength = listIndexes.length;
+    if (indexLength <= listNum - 1) {
+        while (listIndexes.length < indexLength + 2) {
             let i = Math.floor(Math.random() * curatedLists.length);
             let p = Math.floor(Math.random() * 5) + 1;
             if (listIndexes.find((el) => el.index === i) === undefined) listIndexes.push({ index: i, page: p });
         }
     }
+    console.log(curatedLists[listIndexes[listIndexes.length - 2].index].filters)
     try {
-        let { data: { results } } = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1${curatedLists[listIndexes[listNum - 1].index].filters}&watch_region=IN&with_watch_monetization_types=flatrate&page=${listIndexes[listNum - 1].page}`);
-        results = results.filter((result) => (result.poster_path));
-        results.sort(function(a, b) { return b.popularity - a.popularity });
+        let [{ data: { results: list1 } }, { data: { results: list2 } }] = await Promise.all([
+            axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1${curatedLists[listIndexes[listNum - 2].index].filters}&watch_region=IN&with_watch_monetization_types=flatrate&page=${listIndexes[listNum - 2].page}`),
+            axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1${curatedLists[listIndexes[listNum - 1].index].filters}&watch_region=IN&with_watch_monetization_types=flatrate&page=${listIndexes[listNum - 1].page}`)
+        ]);
+        list1 = list1.filter((result) => (result.poster_path));
+        list1.sort(function(a, b) { return b.popularity - a.popularity });
+        list2 = list2.filter((result) => (result.poster_path));
+        list2.sort(function(a, b) { return b.popularity - a.popularity });
         window.sessionStorage.setItem("lists", JSON.stringify(listIndexes));
-        return { listName: curatedLists[listIndexes[listNum - 1].index].name, listMovies: results };
+        return [{ listName: curatedLists[listIndexes[listNum - 2].index].name, listMovies: list1 }, { listName: curatedLists[listIndexes[listNum - 1].index].name, listMovies: list2 }];
     } catch (error) {
-        return error;
+        return null;
     }
 }
 export async function GetTrending(page = 1) {
@@ -241,7 +247,7 @@ export async function GetTrendingPeople() {
     }
 }
 
-
+//MoviePage API Calls
 export async function GetMovie(movieID) {
     try {
         const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=null&append_to_response=watch%2Fproviders%2Ccredits%2Creleases%2Cimages`);
@@ -273,7 +279,7 @@ export async function GetSimilar(movieID) {
     }
 }
 
-
+//ArtistPage API Calls
 export async function GetPeople(peopleID) {
     try {
         const { data } = await axios.get(`https://api.themoviedb.org/3/person/${peopleID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&append_to_response=movie_credits`);
@@ -300,7 +306,7 @@ export async function GetPopularPeople() {
     }
 }
 
-
+//SearchPage API Calls
 export async function GetMovieSearch(query, page = 1) {
     try {
         const { data: { results } } = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false`);
@@ -317,5 +323,3 @@ export async function GetPeopleSearch(query, page = 1) {
         return error.response.status
     }
 }
-
-//GetTrending().then((result) => console.log(result));
