@@ -52,11 +52,9 @@ function Home() {
             setLoading(true);
             GetCuratedList(listNumber).then(res => {
                 if (res === null) {
-                    console.log(res)
                     setHasMore(false);
                 }
                 else {
-                    console.log(res)
                     setCuratedLists((prevVal) => {
                         return [...prevVal, ...res];
                     });
@@ -76,7 +74,6 @@ function Home() {
         if (observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                console.log("visible")
                 setListNumber(prevListNumber => prevListNumber + 2)
             }
         })

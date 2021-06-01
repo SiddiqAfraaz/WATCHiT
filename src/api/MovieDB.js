@@ -180,7 +180,6 @@ export async function GetCuratedList(listNum) {
         window.sessionStorage.setItem("lists", JSON.stringify([]));
     }
     const listIndexes = JSON.parse(window.sessionStorage.getItem("lists"));
-    console.log(listNum)
     if (listNum > curatedLists.length)
         return null
     const indexLength = listIndexes.length;
@@ -191,7 +190,6 @@ export async function GetCuratedList(listNum) {
             if (listIndexes.find((el) => el.index === i) === undefined) listIndexes.push({ index: i, page: p });
         }
     }
-    console.log(curatedLists[listIndexes[listIndexes.length - 2].index].filters)
     try {
         let [{ data: { results: list1 } }, { data: { results: list2 } }] = await Promise.all([
             axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1${curatedLists[listIndexes[listNum - 2].index].filters}&watch_region=IN&with_watch_monetization_types=flatrate&page=${listIndexes[listNum - 2].page}`),
