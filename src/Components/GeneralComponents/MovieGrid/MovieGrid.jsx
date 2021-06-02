@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import useStyles from "./styles";
 
-export default function MovieGrid({ name, movies, variant }) {
+const MovieGrid = React.forwardRef(({ name, movies, variant }, ref) => {
     const classes = useStyles();
     const isSmallScreen = useMediaQuery('(max-width:500px)');
     const isTabletScreen = useMediaQuery('(max-width:1100px)');
@@ -27,20 +27,36 @@ export default function MovieGrid({ name, movies, variant }) {
                 <div className={classes.movieList}>
                     {movies.map((movie, index) => {
                         const isPosterAvail = movie.poster_path !== null;
-                        return (
-                            <Tooltip key={index} title={movie.name || movie.title} placement="bottom" arrow>
-                                <ButtonBase
-                                    className={variant === "artist" ? classes.cardArtist : classes.cardSearch}
-                                    style={{ backgroundImage: isPosterAvail && "url(https://image.tmdb.org/t/p/w342" + movie.poster_path + ")" }}
-                                    onClick={() => { history.push(`/movies/${movie.id}`) }}>
-                                    {!isPosterAvail &&
-                                        <div className={classes.brokenImage}>
-                                            <BrokenImage className={classes.imageIcon} />
-                                            <Typography variant="overline" className={classes.movieName}>{movie.name || movie.title}</Typography>
-                                        </div>
-                                    }
-                                </ButtonBase>
-                            </Tooltip>)
+                        if (movies.length === index + 1)
+                            return (
+                                <Tooltip ref={ref} key={index} title={movie.name || movie.title} placement="bottom" arrow>
+                                    <ButtonBase
+                                        className={variant === "artist" ? classes.cardArtist : classes.cardSearch}
+                                        style={{ backgroundImage: isPosterAvail && "url(https://image.tmdb.org/t/p/w342" + movie.poster_path + ")" }}
+                                        onClick={() => { history.push(`/movies/${movie.id}`) }}>
+                                        {!isPosterAvail &&
+                                            <div className={classes.brokenImage}>
+                                                <BrokenImage className={classes.imageIcon} />
+                                                <Typography variant="overline" className={classes.movieName}>{movie.name || movie.title}</Typography>
+                                            </div>
+                                        }
+                                    </ButtonBase>
+                                </Tooltip>);
+                        else
+                            return (
+                                <Tooltip key={index} title={movie.name || movie.title} placement="bottom" arrow>
+                                    <ButtonBase
+                                        className={variant === "artist" ? classes.cardArtist : classes.cardSearch}
+                                        style={{ backgroundImage: isPosterAvail && "url(https://image.tmdb.org/t/p/w342" + movie.poster_path + ")" }}
+                                        onClick={() => { history.push(`/movies/${movie.id}`) }}>
+                                        {!isPosterAvail &&
+                                            <div className={classes.brokenImage}>
+                                                <BrokenImage className={classes.imageIcon} />
+                                                <Typography variant="overline" className={classes.movieName}>{movie.name || movie.title}</Typography>
+                                            </div>
+                                        }
+                                    </ButtonBase>
+                                </Tooltip>);
                     }
                     )}
                 </div>
@@ -53,4 +69,5 @@ export default function MovieGrid({ name, movies, variant }) {
             </Typography>}
         </div>
     );
-}
+});
+export default MovieGrid;

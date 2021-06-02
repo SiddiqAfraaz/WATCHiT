@@ -29,6 +29,7 @@ function PeopleList({ name, people, onEnd }) {
                                 <Tooltip title={artist.character ? `Acted as ${artist.character}` : " "} placement="top">
                                     <Avatar
                                         alt={artist.name}
+                                        aria-label={artist.name}
                                         src={artist.profile_path && "https://image.tmdb.org/t/p/w185/" + artist.profile_path}
                                         component={ButtonBase}
                                         className={classes.castAvatar}

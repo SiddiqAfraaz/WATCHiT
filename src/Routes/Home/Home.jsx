@@ -8,6 +8,7 @@ import { GetPopular, GetNowPlaying, GetTrending, GetCuratedList, GetTrendingPeop
 
 
 function Home() {
+    //Default Home Page Lists
     const [lists, setLists] = useState([{
         listName: '',
         listMovies: []
@@ -42,6 +43,8 @@ function Home() {
         setHomepageLists();
     }, []);
 
+
+    //Random Lists on Different Sessions with lazy Loading
     const [curatedLists, setCuratedLists] = useState([]);
     const [listNumber, setListNumber] = useState(2);
     const [hasMore, setHasMore] = useState(false);
@@ -69,7 +72,7 @@ function Home() {
     }, [listNumber]);
 
     const observer = useRef()
-    const lastBookElementRef = useCallback(node => {
+    const lastListElementRef = useCallback(node => {
         if (loading) return
         if (observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
@@ -89,12 +92,12 @@ function Home() {
             <PeopleList name="Trending Artists" people={popularPeople} />
             {curatedLists.map((list, index) => {
                 if (curatedLists.length === index + 1)
-                    return <div ref={lastBookElementRef}><MovieList key={index} name={list.listName} movies={list.listMovies} /></div>
+                    return <div ref={lastListElementRef}><MovieList key={index} name={list.listName} movies={list.listMovies} /></div>
                 else
                     return <MovieList key={index} name={list.listName} movies={list.listMovies} />
             })}
             <div style={{ width: "100%", display: loading ? "flex" : "none", flexDirection: "column", alignItems: "center" }}>
-                <CircularProgress />
+                <CircularProgress aria-label="progressCircle" />
             </div>
         </div >
     );

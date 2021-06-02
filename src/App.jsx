@@ -5,8 +5,8 @@ import {
     Route,
     useLocation
 } from "react-router-dom";
-import Loading from "react-fullscreen-loading";
 
+import Loading from "./Components/GeneralComponents/LoadOverlay/LoadOverlay";
 import AppBar from "./Components/GeneralComponents/AppBar/Appbar";
 import Footer from "./Components/GeneralComponents/Footer/Footer";
 import Home from "./Routes/Home/Home";
@@ -24,7 +24,8 @@ function App() {
     window.setLoading = setIsLoading;
     return (
         <div>
-            <Loading loading={isloading} background="#090909" loaderColor="#76191c" />
+            <Loading loading={isloading} />
+
             <CssBaseline />
             <AppBar />
             <Switch>

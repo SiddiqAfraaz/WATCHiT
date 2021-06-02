@@ -33,6 +33,7 @@ function SearchBar(props) {
                         <InputAdornment position="end">
                             <IconButton
                                 className={classes.icon}
+                                aria-label="searchIcon"
                                 onClick={props.value !== "" ? props.onSubmit : null}>
                                 <SearchIcon />
                             </IconButton>
@@ -41,12 +42,14 @@ function SearchBar(props) {
                 {(props.value !== "" && smallScreenTrigger) &&
                     (<IconButton
                         className={classes.icon}
+                        aria-label="cancelIcon"
                         onClick={handleSearch}>
                         <CloseIcon />
                     </IconButton>)}
             </div>)
             : (<IconButton
                 className={classes.icon}
+                aria-label="searchIcon"
                 style={{ fontSize: "1.8rem", position: "absolute", right: "5px" }}
                 onClick={handleSearch}>
                 <SearchIcon />
