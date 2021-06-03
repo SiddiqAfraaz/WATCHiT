@@ -38,7 +38,7 @@ function App() {
                 <Route path="/artist/:id">
                     <Artist />
                 </Route>
-                <Search query={query.get("query")} />
+                <Search query={query.get("query")} year={query.get("year")} />
             </Switch>
             <Footer />
         </div>

@@ -121,8 +121,6 @@ export default function MovieJumbotron({ movie }) {
                         </div>}
                     </div>
                 </Collapse>}
-                {/* Future Update */}
-                {/* <IconButton className={classes.addButton} size="small" color="secondary"><Add /></IconButton> */}
             </div>
         </div>
 

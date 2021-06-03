@@ -147,19 +147,6 @@ export default makeStyles((theme) => ({
         },
 
     },
-    // addButton: {
-    //     fontSize: "0.75rem",
-    //     position: "absolute",
-    //     padding: "0.75rem",
-    //     marginTop: "0.5rem",
-    //     marginLeft: "0.5rem",
-    //     [`${theme.breakpoints.down(1000)} and (orientation: landscape)`]: {
-    //         padding: "0.75rem",
-    //         marginTop: "0.2rem",
-    //         marginLeft: "0.2rem",
-    //     },
-    //     color: theme.palette.primary.contrastText,
-    // }
     streamDiv: {
         display: "flex",
         flexDirection: "row",

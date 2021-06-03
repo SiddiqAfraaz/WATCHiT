@@ -1,8 +1,7 @@
 import React from "react";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Navigation } from 'swiper/core';
-// Import Swiper styles
+
 import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css"
 
@@ -10,7 +9,6 @@ import CarouselCard from "./CarouselCard/CarouselCard";
 
 import "./styles.css";
 
-// install Swiper modules
 SwiperCore.use([Autoplay, Navigation]);
 
 function Carousel({ movies }) {

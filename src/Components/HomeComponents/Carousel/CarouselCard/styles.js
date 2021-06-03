@@ -54,13 +54,4 @@ export default makeStyles((theme) => ({
         position: "relative",
         margin: "0.75rem 0",
     },
-    addButton: {
-        fontSize: "0.75rem",
-        position: "absolute",
-        padding: "0.75rem",
-        marginTop: "0.5rem",
-        marginLeft: "0.5rem",
-        color: theme.palette.secondary.contrastText,
-        opacity: "80%",
-    }
 }));

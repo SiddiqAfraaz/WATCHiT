@@ -38,8 +38,6 @@ export default function CarouselCard({ movie }) {
                 color="secondary">
                 {"View More"}<KeyboardArrowRight />
             </Button>
-            {/* Future Update */}
-            {/* <IconButton className={classes.addButton} size="small" color="secondary"><Add /></IconButton> */}
 
         </div>
     </div>

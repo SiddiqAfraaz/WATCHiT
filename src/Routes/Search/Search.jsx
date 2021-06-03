@@ -9,7 +9,7 @@ import MovieGrid from "../../Components/GeneralComponents/MovieGrid/MovieGrid";
 
 import useStyles from "./styles";
 
-function Search({ query }) {
+function Search({ query, year }) {
     const classes = useStyles();
     const [movies, setMovies] = useState([]);
     const [moviePage, setMoviePage] = useState(1);
@@ -23,13 +23,13 @@ function Search({ query }) {
     useEffect(() => {
         async function getSearches() {
             setLoading(true);
-            const fetchedMovies = await GetMovieSearch(query, moviePage);
+            const fetchedMovies = await GetMovieSearch(query, year, moviePage);
             setMovies(prevState => [...prevState, ...fetchedMovies]);
             setHasMore(fetchedMovies.length > 0);
             setLoading(false);
         }
         getSearches();
-    }, [query, moviePage]);
+    }, [query, moviePage, year]);
 
     const observer = useRef()
     const lastMovieElementRef = useCallback(node => {

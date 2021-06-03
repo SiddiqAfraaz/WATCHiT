@@ -1,10 +1,6 @@
 import axios from "axios";
 
 let userRegionCode = "IN";
-// axios.get(`http://ip-api.com/json/`).then(({ data }) => {
-//     userRegionCode = data.countryCode;
-//     console.log(userRegionCode)
-// });
 
 const genres = [{
         "id": 10751,
@@ -162,10 +158,6 @@ const curatedLists = [{
         filters: "&with_genres=10752",
         name: "War & Destrucution"
     },
-    // {
-    //     filters: "&with_genres=10770",
-    //     name: "TV Movies"
-    // },
 ]; // Add in Even Length
 
 function setGenres(genreIDs) {
@@ -305,9 +297,9 @@ export async function GetPopularPeople() {
 }
 
 //SearchPage API Calls
-export async function GetMovieSearch(query, page = 1) {
+export async function GetMovieSearch(query, year, page = 1) {
     try {
-        const { data: { results } } = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false`);
+        const { data: { results } } = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${query}&year=${year}&page=${page}&include_adult=false`);
         return results;
     } catch (error) {
         return error.response.status
@@ -319,5 +311,21 @@ export async function GetPeopleSearch(query, page = 1) {
         return results;
     } catch (error) {
         return error.response.status
+    }
+}
+export async function GetSearchSuggestions(query) {
+    try {
+        let { data: { results } } = await axios({
+            method: 'GET',
+            url: 'https://api.themoviedb.org/3/search/multi?&language=en-US&&&',
+            params: { api_key: process.env.REACT_APP_TMDB_API_KEY, language: "en-US", query: query, include_adult: "false", region: userRegionCode },
+        });
+        results = results.filter((result) => (result.media_type === "movie" || result.media_type === "person"));
+        results = results.map((result) => {
+            return { name: (result.name || result.title), releaseYear: (result.release_date && result.release_date.slice(0, 4)), mediaType: result.media_type }
+        })
+        return results;
+    } catch (e) {
+        return e;
     }
 }

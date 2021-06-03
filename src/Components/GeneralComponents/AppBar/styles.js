@@ -13,12 +13,16 @@ export default makeStyles((theme) => ({
     toolBar: {
         display: "flex",
         justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginTop: "8px",
         [theme.breakpoints.down(600)]: {
             justifyContent: "center",
+            marginTop: "4px",
         }
     },
     title: {
         width: "15vw",
+        height: "50px",
         [theme.breakpoints.down(600)]: {
             textAlign: "center",
             width: "35vw",
