@@ -25,7 +25,7 @@ function Home() {
                 GetTrending(),
                 GetTrendingPeople(),
             ]);
-            setCarouselMovies(trending.slice(0, 8));
+            setCarouselMovies(trending);
             setPopularPeople(people);
             setLists([
                 {

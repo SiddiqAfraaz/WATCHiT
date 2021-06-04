@@ -13,7 +13,7 @@ function SearchBar(props) {
     const [suggestCursor, setSuggestCursor] = useState(-1);
     const [hoverCursor, setHoverCursor] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const smallScreenTrigger = useMediaQuery('(max-width:600px)');
+    const smallScreenTrigger = useMediaQuery('(max-width:599px)');
     const searchStyle = smallScreenTrigger ? { width: "100%" } : { width: "30vw" };
     const activeStyle = { backgroundColor: "rgb(255,255,255, 0.1)" }
     const hoverStyle = { backgroundColor: "rgb(255,255,255, 0.07)" }
@@ -80,7 +80,7 @@ function SearchBar(props) {
                                     setHoverCursor(index)
                                 }}
                                 onMouseDown={() => { props.onSubmit(suggestion) }}>
-                                <MovieIcon /> <p className={classes.suggestionText}>{suggestion.name} ({suggestion.releaseYear})</p>
+                                <MovieIcon /> <p className={classes.suggestionText}>{suggestion.name} {suggestion.releaseYear !== "" && `(${suggestion.releaseYear})`}</p>
                             </div>
                         else
                             return <div

@@ -18,6 +18,12 @@ export default makeStyles((theme) => ({
             textAlign: "center"
 
         },
+        [`${theme.breakpoints.down(1100)} and (orientation: landscape)`]: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            textAlign: "left"
+        },
         margin: "2vw 0"
     },
     container2: {
@@ -36,6 +42,12 @@ export default makeStyles((theme) => ({
     artistPhoto: {
         width: "20vw",
         height: "28.8vw",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        flexShrink: 0,
+        boxShadow: `2px 2px 10px ${theme.palette.background.dark}`,
+        borderRadius: "10px",
+        margin: "10px",
         [theme.breakpoints.down(1100)]: {
             width: "40vw",
             height: "57.6vw",
@@ -44,13 +56,8 @@ export default makeStyles((theme) => ({
         [`${theme.breakpoints.down(1100)} and (orientation: landscape)`]: {
             width: "18vw",
             height: "25.92vw",
+            marginTop: 0,
         },
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        flexShrink: 0,
-        boxShadow: `2px 2px 10px ${theme.palette.background.dark}`,
-        borderRadius: "10px",
-        margin: "10px"
     },
     brokenImage: {
         display: "flex",
@@ -86,6 +93,9 @@ export default makeStyles((theme) => ({
             left: "100%",
             bottom: "10%",
             textAlign: "left",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
             width: "80%",
             margin: "50px",
         },

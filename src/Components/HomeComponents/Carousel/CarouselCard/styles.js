@@ -4,7 +4,7 @@ export default makeStyles((theme) => ({
     movie: {
         position: "relative",
         padding: "17vw 0 8vw 7vw",
-        width: "30%",
+        width: "36%",
         textAlign: "left",
         height: "17vw",
         [theme.breakpoints.down(1100)]: {
@@ -31,13 +31,17 @@ export default makeStyles((theme) => ({
         fontSize: "min(7vw, 2.125rem)",
         color: theme.palette.secondary.contrastText,
     },
-    movieGenre: {
-        fontSize: "min(3vw, 0.75rem)",
-        lineHeight: "min(3vw, 0.75rem)",
+    movieSubtitle: {
+        color: theme.palette.primary.contrastText,
+        fontSize: "min(3.5vw, 0.9rem)",
+        lineHeight: "min(4vw, 1rem)",
         display: "inline-flex",
         marginRight: "5px",
-        paddingBottom: "20px",
-        color: theme.palette.primary.contrastText,
+        paddingBottom: "10px",
+        [`${theme.breakpoints.down(1000)} and (orientation: landscape)`]: {
+            fontSize: "min(2vw, 0.5rem)",
+            lineHeight: "min(2vw, 0.5rem)",
+        },
     },
     movieText: {
         fontSize: "min(4vw, 1rem)",

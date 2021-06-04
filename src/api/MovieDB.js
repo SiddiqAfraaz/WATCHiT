@@ -199,14 +199,20 @@ export async function GetCuratedList(listNum) {
 }
 export async function GetTrending(page = 1) {
     try {
-        let { data: { results } } = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_TMDB_API_KEY}&page=${page}`);
+        let [{ data: { results } }, { data: languageCodes }] = await Promise.all([
+            axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_TMDB_API_KEY}&page=${page}`),
+            axios.get("https://pkgstore.datahub.io/core/language-codes/language-codes_json/data/97607046542b532c395cf83df5185246/language-codes_json.json")
+        ]);
+        results = results.slice(0, 8);
         for (const result of results) {
             result["genres"] = setGenres(result["genre_ids"]);
+            if (result.release_date !== null) result.release_date = new Date(result.release_date);
+            result.language = languageCodes.find((code) => code.alpha2 === result.original_language).English;
         }
         results = results.filter((result) => (result.poster_path));
         return results;
     } catch (error) {
-        return error.response.status;
+        return error;
     }
 }
 export async function GetPopular(page = 1) {
@@ -240,7 +246,11 @@ export async function GetTrendingPeople() {
 //MoviePage API Calls
 export async function GetMovie(movieID) {
     try {
-        const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=null&append_to_response=watch%2Fproviders%2Ccredits%2Creleases%2Cimages`);
+        const [{ data }, { data: languageCodes }] = await Promise.all([
+            axios.get(`https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=null&append_to_response=watch%2Fproviders%2Ccredits%2Creleases%2Cimages`),
+            axios.get("https://pkgstore.datahub.io/core/language-codes/language-codes_json/data/97607046542b532c395cf83df5185246/language-codes_json.json")
+        ]);
+        data.language = languageCodes.find((code) => code.alpha2 === data.original_language).English;
         data.watch_providers = data['watch/providers'].results[`${userRegionCode}`];
         data.release_date = new Date(data.release_date);
         let temp = data.releases.countries.filter((rate) => rate.iso_3166_1 === userRegionCode || rate.iso_3166_1 === "US")[0];

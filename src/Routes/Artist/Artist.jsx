@@ -72,13 +72,13 @@ function Artist() {
                         className={classes.artistBio}>
                         {artist.biography}
                     </Typography>
+                    {isSmallScreen && <Typography
+                        variant="body2"
+                        onClick={() => { setIsOpen((prevVal) => !prevVal) }}
+                        className={classes.collapseButton}>
+                        {isOpen ? "View Less" : "View More Info"} {isOpen ? <ExpandLess /> : <ExpandMore />}
+                    </Typography>}
                 </div>
-                {isSmallScreen && <Typography
-                    variant="body2"
-                    onClick={() => { setIsOpen((prevVal) => !prevVal) }}
-                    className={classes.collapseButton}>
-                    {isOpen ? "View Less" : "View More Info"} {isOpen ? <ExpandLess /> : <ExpandMore />}
-                </Typography>}
             </div>
             <div className={classes.container2}>
                 <Collapse className={classes.artistInfo} in={isOpen || !isSmallScreen}>

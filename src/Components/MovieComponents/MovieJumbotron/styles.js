@@ -125,6 +125,7 @@ export default makeStyles((theme) => ({
         lineHeight: 1.3,
         display: "block",
         overflow: "hidden",
+        marginBottom: "10px",
         color: theme.palette.primary.contrastText,
         [`${theme.breakpoints.down(1000)} and (orientation: landscape)`]: {
             fontSize: "min(1.7vw, 1rem)",
@@ -147,26 +148,4 @@ export default makeStyles((theme) => ({
         },
 
     },
-    streamDiv: {
-        display: "flex",
-        flexDirection: "row",
-        [theme.breakpoints.down(1100)]: {
-            flexDirection: "column",
-            alignItems: "flex-start",
-            textAlign: "left",
-        },
-    },
-    streamSec: {
-        paddingRight: "30px",
-    },
-    streamHead: {
-        fontSize: "1rem",
-        fontWeight: "600"
-    },
-    streamImg: {
-        width: "60px",
-        height: "60px",
-        borderRadius: "50px",
-        margin: "5px"
-    }
 }));

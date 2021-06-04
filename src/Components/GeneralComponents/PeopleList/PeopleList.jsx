@@ -26,7 +26,7 @@ function PeopleList({ name, people, onEnd }) {
                     return (
                         <SwiperSlide key={index} className={classes.slide}>
                             <div className={classes.artist}>
-                                <Tooltip title={artist.character ? `Acted as ${artist.character}` : " "} placement="top">
+                                <Tooltip title={artist.character ? `Acted as ${artist.character}` : ""} placement="top">
                                     <Avatar
                                         alt={artist.name}
                                         aria-label={artist.name}

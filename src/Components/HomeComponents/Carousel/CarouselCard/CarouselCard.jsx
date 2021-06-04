@@ -16,16 +16,23 @@ export default function CarouselCard({ movie }) {
                 variant="h4"
                 color="inherit"
                 className={classes.movieName}>
-                <strong>{movie.title}</strong>
+                <strong>{movie.name || movie.title}</strong>
             </Typography>
-            {movie.genres && movie.genres.map((genre, i) => {
-                return (i < 3 && <Typography
-                    key={i}
-                    variant="overline"
-                    className={classes.movieGenre}>
-                    {i !== 0 ? " | " + genre : genre}
-                </Typography>)
-            })}
+            <Typography
+                variant="body1"
+                className={classes.movieSubtitle}>
+                {movie.release_date && movie.release_date.getFullYear()}
+            </Typography>
+            <Typography
+                variant="body1"
+                className={classes.movieSubtitle}>
+                {movie.id && `| ${movie.language} |`}
+            </Typography>
+            <Typography
+                variant="body2"
+                className={classes.movieSubtitle}>
+                {movie.genres[0]}{movie.genres[1] && `/${movie.genres[1]}`}
+            </Typography>
             <Typography
                 variant="body1"
                 className={classes.movieText}>

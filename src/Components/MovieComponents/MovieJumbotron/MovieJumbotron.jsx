@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Typography, Button, Paper, ButtonGroup, Collapse, Tooltip } from "@material-ui/core";
+import { Typography, Button, Paper, ButtonGroup, Tooltip } from "@material-ui/core";
 import Rating from '@material-ui/lab/Rating';
-import { Star, StarBorder, BrokenImage, KeyboardArrowDown } from '@material-ui/icons';
+import { Star, StarBorder, BrokenImage, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 
 
 import JumbotronBG from "../../GeneralComponents/JumbotronBG/JumbotronBG";
 
 import useStyles from "./styles";
 
-export default function MovieJumbotron({ movie }) {
+export default function MovieJumbotron({ movie, onMoreInfoClick }) {
     const classes = useStyles();
     const [isOpen, setIsOpen] = useState(false);
     const isPosterAvail = movie.poster_path !== null;
@@ -34,21 +34,18 @@ export default function MovieJumbotron({ movie }) {
                 <Typography
                     variant="body1"
                     className={classes.movieSubtitle}>
-                    {movie.id && `${movie.content_rating ? movie.content_rating : "UNRATED"}`}  |
+                    {movie.id && `${movie.content_rating ? movie.content_rating : "NR"}`}
                 </Typography>
                 <Typography
                     variant="body1"
                     className={classes.movieSubtitle}>
-                    {(movie.id && movie.runtime) ? (`${Math.floor(movie.runtime / 60)} hr ${movie.runtime % 60} min   |`) : " "}
+                    {movie.id && `|  ${movie.language}`}
                 </Typography>
-                {movie.genres && movie.genres.map((genre, i) => {
-                    return (i < 3 && <Typography
-                        key={i}
-                        variant="body2"
-                        className={classes.movieSubtitle}>
-                        {(i !== 2 && i !== movie.genres.length - 1) ? genre.name + "," : genre.name}
-                    </Typography>)
-                })}
+                <Typography
+                    variant="body1"
+                    className={classes.movieSubtitle}>
+                    {(movie.id && movie.runtime) ? `|  ${((Math.floor(movie.runtime / 60) > 0 ? `${Math.floor(movie.runtime / 60)} hr` : "") + ` ${movie.runtime % 60} min`)}` : " "}
+                </Typography>
                 <div className={classes.ratingWrapper}>
 
                     <div className={classes.rating}>
@@ -72,55 +69,31 @@ export default function MovieJumbotron({ movie }) {
                     className={classes.movieText}>
                     {movie.overview}
                 </Typography>
+                {movie.genres && <div>
+                    <Typography
+                        variant="body2"
+                        className={classes.movieSubtitle}>
+                        <strong>Genre:</strong>
+                    </Typography>
+                    {movie.genres.map((genre, i) => (i < 4 && <Typography
+                        key={i}
+                        variant="body2"
+                        className={classes.movieSubtitle}>
+                        {(i !== 3 && i !== movie.genres.length - 1) ? genre.name + " |" : genre.name}
+                    </Typography>))}
+                </div>}
+                {movie.id && <div>
+                    <Typography
+                        variant="body2"
+                        className={classes.movieSubtitle}>
+                        <strong>Release Date:</strong>&nbsp;{movie.release_date.toDateString() !== "Invalid Date" ? movie.release_date.toDateString().slice(4) : "N/A "}&nbsp;({movie.status})
+                    </Typography>
+                </div>}
                 <ButtonGroup disabled={!movie.watch_providers} className={classes.buttonGrp} variant="contained" size="large" color="secondary">
-                    <Button className={classes.button} href={movie.watch_providers && movie.watch_providers.link}><small style={{ fontSize: "0.5rem" }}>WHERE TO</small><br /><strong style={{ fontSize: "1rem" }}>WATCHiT™</strong></Button>
-                    <Button size="small" onClick={() => { setIsOpen((prevVal) => !prevVal) }}><KeyboardArrowDown /></Button>
+                    <Button className={classes.button} href={movie.watch_providers && movie.watch_providers.link} target="_blank" rel="noreferrer"><small style={{ fontSize: "0.5rem" }}>WHERE TO</small><br /><strong style={{ fontSize: "1rem" }}>WATCHiT™</strong></Button>
+                    <Tooltip title="Stream Info"><Button size="small" onClick={() => { setIsOpen((prevVal) => !prevVal); onMoreInfoClick() }}>{isOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}</Button></Tooltip>
                 </ButtonGroup>
                 {!movie.watch_providers && <Typography display="block" variant="caption" color="error"> *This content is not available to stream in your region*</Typography>}
-                {movie.watch_providers && <Collapse in={isOpen}>
-                    <div className={classes.streamDiv}>
-                        {movie.watch_providers.flatrate && <div className={classes.streamSec}>
-                            <Typography
-                                variant="body1"
-                                className={classes.streamHead}>
-                                Flatrate:
-                        </Typography>
-                            {movie.watch_providers.flatrate.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
-                        </div>}
-                        {movie.watch_providers.free && <div className={classes.streamSec}>
-                            <Typography
-                                variant="body1"
-                                className={classes.streamHead}>
-                                Free:
-                        </Typography>
-                            {movie.watch_providers.free.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
-                        </div>}
-                        {(movie.watch_providers.rent && !movie.watch_providers.ads) && <div className={classes.streamSec}>
-                            <Typography
-                                variant="body1"
-                                className={classes.streamHead}>
-                                Rent:
-                        </Typography>
-                            {movie.watch_providers.rent.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
-                        </div>}
-                        {(movie.watch_providers.buy && !movie.watch_providers.free) && <div className={classes.streamSec}>
-                            <Typography
-                                variant="body1"
-                                className={classes.streamHead}>
-                                Buy:
-                        </Typography>
-                            {movie.watch_providers.buy.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
-                        </div>}
-                        {movie.watch_providers.ads && <div className={classes.streamSec}>
-                            <Typography
-                                variant="body1"
-                                className={classes.streamHead}>
-                                Ads:
-                        </Typography>
-                            {movie.watch_providers.ads.map((platform, index) => (<Tooltip key={index} title={platform.provider_name}><img className={classes.streamImg} src={"https://image.tmdb.org/t/p/w92" + platform.logo_path} alt={platform.provider_name} /></Tooltip>))}
-                        </div>}
-                    </div>
-                </Collapse>}
             </div>
         </div>
 
