@@ -26,6 +26,10 @@ export default makeStyles((theme) => ({
     castAvatar: {
         width: "13vw",
         height: "13vw",
+        transition: "box-shadow 250ms",
+        '&:hover': {
+            boxShadow: `4px 4px 15px ${theme.palette.background.dark}`,
+        },
         [theme.breakpoints.down(1100)]: {
             width: "20vw",
             height: "20vw",
